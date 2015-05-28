@@ -1,0 +1,36 @@
+#!/bin/bash
+
+PHP=`which php`
+WEBPORT=`(netstat  -atn | awk '{printf "%s\n%s\n", $4, $4}' | grep -oE '[0-9]*$'; seq 8000 9000) | sort -n | uniq -u | head -n 1`
+WEBPATH=${2-`pwd`}
+PIDFILE="/tmp/php-web-server-${WEBPORT}.pid"
+PHPARGS="-S localhost:${WEBPORT} -t ${WEBPATH}"
+
+case "$1" in
+  start)
+    echo -ne "Starting PHP Web Server: "
+    start-stop-daemon --start --quiet \
+                      --background \
+                      --pidfile $PIDFILE --make-pidfile \
+                      --exec $PHP \
+                      -- $PHPARGS
+    echo " ....OK"
+    ;;
+  stop)
+    echo -ne "Stopping PHP Web Server: "
+    start-stop-daemon --stop --quiet \
+                      --pidfile $PIDFILE
+    rm -f $PIDFILE
+    echo " ....OK"
+    ;;
+  restart)
+    $0 stop
+    sleep 2
+    $0 start
+    ;;
+  *)
+    echo "Usage: web-server {start|stop|restart}"
+    exit 1
+esac
+
+exit 0

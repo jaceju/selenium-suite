@@ -1,0 +1,36 @@
+#!/bin/bash
+
+BIN=`which phantomjs`
+NAME="PhantomJS WebDriver"
+PORT=4444
+PIDFILE="/tmp/phantomjs-${PORT}.pid"
+ARGS="--webdriver=${PORT}"
+
+case "$1" in
+  start)
+    echo -ne "Starting ${NAME}: "
+    start-stop-daemon --start --quiet \
+                      --background \
+                      --pidfile $PIDFILE --make-pidfile \
+                      --exec $BIN \
+                      -- $ARGS
+    echo " ....OK"
+    ;;
+  stop)
+    echo -ne "Stopping ${NAME}: "
+    start-stop-daemon --stop --quiet \
+                      --pidfile $PIDFILE
+    rm -f $PIDFILE
+    echo " ....OK"
+    ;;
+  restart)
+    $0 stop
+    sleep 2
+    $0 start
+    ;;
+  *)
+    echo "Usage: ${0} {start|stop|restart}"
+    exit 1
+esac
+
+exit 0
