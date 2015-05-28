@@ -4,7 +4,7 @@ export DISPLAY=:0
 
 WORKPATH=`pwd`
 JAR="${WORKPATH}/selenium-server-standalone-2.45.0.jar"
-LOGFILE="/var/log/selenium-server.log"
+LOGFILE="${WORKPATH}/selenium-server.log"
 TIMEOUT=180000
 
 BIN=`which java`
