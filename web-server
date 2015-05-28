@@ -1,23 +1,24 @@
 #!/bin/bash
 
-PHP=`which php`
-WEBPORT=`(netstat  -atn | awk '{printf "%s\n%s\n", $4, $4}' | grep -oE '[0-9]*$'; seq 8000 9000) | sort -n | uniq -u | head -n 1`
+BIN=`which php`
+NAME="PHP Web Server"
+PORT=`(netstat  -atn | awk '{printf "%s\n%s\n", $4, $4}' | grep -oE '[0-9]*$'; seq 8000 9000) | sort -n | uniq -u | head -n 1`
 WEBPATH=${2-`pwd`}
-PIDFILE="/tmp/php-web-server-${WEBPORT}.pid"
-PHPARGS="-S localhost:${WEBPORT} -t ${WEBPATH}"
+PIDFILE="/tmp/php-web-server-${PORT}.pid"
+ARGS="-S localhost:${PORT} -t ${WEBPATH}"
 
 case "$1" in
   start)
-    echo -ne "Starting PHP Web Server: "
+    echo -ne "Starting ${NAME}: "
     start-stop-daemon --start --quiet \
                       --background \
                       --pidfile $PIDFILE --make-pidfile \
-                      --exec $PHP \
-                      -- $PHPARGS
+                      --exec $BIN \
+                      -- $ARGS
     echo " ....OK"
     ;;
   stop)
-    echo -ne "Stopping PHP Web Server: "
+    echo -ne "Stopping ${NAME}: "
     start-stop-daemon --stop --quiet \
                       --pidfile $PIDFILE
     rm -f $PIDFILE
@@ -29,7 +30,7 @@ case "$1" in
     $0 start
     ;;
   *)
-    echo "Usage: web-server {start|stop|restart}"
+    echo "Usage: ${0} {start|stop|restart}"
     exit 1
 esac
 

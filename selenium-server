@@ -2,26 +2,28 @@
 
 export DISPLAY=:0
 
-JAVA=`which java`
-WORKPATH="/vagrant/assets"
-SELENIUM="${WORKPATH}/selenium-server-standalone-2.45.0.jar"
-PROFILE="${WORKPATH}/firefox-profile"
-PIDFILE="/tmp/selenium-server.pid"
+WORKPATH=`pwd`
+JAR="${WORKPATH}/selenium-server-standalone-2.45.0.jar"
 LOGFILE="/var/log/selenium-server.log"
-JAVAARGS="-jar ${SELENIUM} -timeout 180000 -trustAllSSLCertificates -firefoxProfileTemplate ${PROFILE} -log ${LOGFILE}"
+TIMEOUT=180000
+
+BIN=`which java`
+NAME="Selenium Server"
+ARGS="-jar ${JAR} -timeout ${TIMEOUT} -trustAllSSLCertificates -log ${LOGFILE}"
+PIDFILE="/tmp/selenium-server.pid"
 
 case "$1" in
   start)
-    echo -ne "Starting Selenium Server: "
+    echo -ne "Starting ${NAME}: "
     start-stop-daemon --start --quiet \
                       --background \
                       --pidfile $PIDFILE --make-pidfile \
-                      --exec $JAVA \
-                      -- $JAVAARGS
+                      --exec $BIN \
+                      -- $ARGS
     echo " ....OK"
     ;;
   stop)
-    echo -ne "Stopping Selenium Server: "
+    echo -ne "Stopping ${NAME}: "
     start-stop-daemon --stop --quiet \
                       --pidfile $PIDFILE
     rm -f $PIDFILE
@@ -33,7 +35,7 @@ case "$1" in
     $0 start
     ;;
   *)
-    echo "Usage: selenium-server {start|stop|restart}"
+    echo "Usage: ${0} {start|stop|restart}"
     exit 1
 esac
 
