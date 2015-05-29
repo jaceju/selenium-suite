@@ -5,11 +5,12 @@ export DISPLAY=:0
 WORKPATH=`pwd`
 JAR="${WORKPATH}/selenium-server-standalone-2.45.0.jar"
 LOGFILE="${WORKPATH}/selenium-server.log"
+PROFILE="${WORKPATH}/profile"
 TIMEOUT=180000
 
 BIN=`which java`
 NAME="Selenium Server"
-ARGS="-jar ${JAR} -timeout ${TIMEOUT} -trustAllSSLCertificates -log ${LOGFILE}"
+ARGS="-jar ${JAR} -firefoxProfileTemplate ${PROFILE} -timeout ${TIMEOUT} -trustAllSSLCertificates -log ${LOGFILE}"
 PIDFILE="/tmp/selenium-server.pid"
 
 case "$1" in
