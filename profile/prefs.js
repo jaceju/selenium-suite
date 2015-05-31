@@ -1,0 +1,1 @@
+user_pref("extensions.checkCompatibility", false);
