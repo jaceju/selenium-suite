@@ -1,4 +1,5 @@
 #!/bin/bash
+## @see http://stackoverflow.com/questions/16477342/selenium-codeception-chrome-issue
 
 export DISPLAY=:0
 
@@ -10,7 +11,7 @@ TIMEOUT=180000
 
 BIN=`which java`
 NAME="Selenium Server"
-ARGS="-jar ${JAR} -firefoxProfileTemplate ${PROFILE} -timeout ${TIMEOUT} -trustAllSSLCertificates -log ${LOGFILE}"
+ARGS="-Dwebdriver.googlechrome.driver=/usr/bin/chromedriver -jar ${JAR} -firefoxProfileTemplate ${PROFILE} -timeout ${TIMEOUT} -trustAllSSLCertificates -log ${LOGFILE}"
 PIDFILE="/tmp/selenium-server.pid"
 
 case "$1" in
