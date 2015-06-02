@@ -14,16 +14,17 @@ sudo sh -c 'echo "deb-src http://ppa.launchpad.net/ubuntu-mozilla-security/ppa/u
 wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
 sudo sh -c 'echo "deb http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google-chrome.list'
 
-# Update sources & Install package
-echo "Install Xvfb and Browser..."
+# Update sources
+echo "Update sources..."
 sudo apt-get -qq update
+
+# Install package
+echo "Install Xvfb and Browser..."
 sudo apt-get -y -qq install \
     openjdk-7-jre \
     xfonts-100dpi xfonts-75dpi \
     xfonts-scalable xfonts-cyrillic \
     xvfb xserver-xorg-core \
-    phantomjs \
-    dbus-x11 firefox \
     google-chrome-stable
 
 # ChromeDriver
@@ -39,3 +40,8 @@ sudo ln -s /usr/local/share/chromedriver /usr/bin/chromedriver
 if [ ! -f "selenium-server-standalone-2.45.0.jar" ]; then
     wget http://selenium-release.storage.googleapis.com/2.45/selenium-server-standalone-2.45.0.jar
 fi
+
+# PhantomJS & Firefox
+# sudo apt-get -y -qq install \
+#     phantomjs \
+#     dbus-x11 firefox

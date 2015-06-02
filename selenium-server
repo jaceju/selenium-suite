@@ -11,7 +11,7 @@ TIMEOUT=180000
 
 BIN=`which java`
 NAME="Selenium Server"
-ARGS="-Dwebdriver.googlechrome.driver=/usr/bin/chromedriver -jar ${JAR} -firefoxProfileTemplate ${PROFILE} -timeout ${TIMEOUT} -trustAllSSLCertificates -log ${LOGFILE}"
+ARGS="-Dwebdriver.googlechrome.driver=/usr/bin/chromedriver -jar ${JAR} -timeout ${TIMEOUT} -trustAllSSLCertificates -log ${LOGFILE}"
 PIDFILE="/tmp/selenium-server.pid"
 
 case "$1" in
